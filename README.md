@@ -3,7 +3,14 @@
 [![PyPI](https://img.shields.io/pypi/v/aisuite)](https://pypi.org/project/aisuite/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Simple, unified interface to multiple Generative AI providers.
+Fork of [aisuite](https://github.com/andrewyng/aisuite) with support for tool calling and structured output.
+
+AI frameworks are getting more and more complex. This library aims to simplify things. The framework is opinonated and aims to be simple and provide only the essential features for developers to build their own AI applications. From my experience, any LLM framework only needs the following 3 things-
+1. Access to different LLM providers
+2. Access to tools
+3. Access to structured output
+
+Every thing else is just a distraction. This library is built with the above 3 things in mind and will provide a unified interface to the most popular LLM providers to do the above 3 things with minimal code.
 
 `aisuite` makes it easy for developers to use multiple LLM through a standardized interface. Using an interface similar to OpenAI's, `aisuite` makes it easy to interact with the most popular LLMs and compare the results. It is a thin wrapper around python client libraries, and allows creators to seamlessly swap out and test responses from different LLM providers without changing their code. Today, the library is primarily focussed on chat completions. We will expand it cover more use cases in near future.
 

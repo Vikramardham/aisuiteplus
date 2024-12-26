@@ -8,8 +8,6 @@ from dotenv import load_dotenv
 load_dotenv(".env")
 
 client = ai.Client()
-# model = os.getenv("MODEL")
-model = "openai:gpt-4o-mini"
 
 messages = [
     {
@@ -31,13 +29,14 @@ def get_weather(location: str) -> str:
 
 # %%
 
+# model = os.getenv("MODEL")
+model = "openai:gpt-4o-mini"
 start_time = time.time()
 response = client.chat.completions.create(
     model=model,
     messages=messages,
     tools=[add_two_numbers],
     tool_choice="auto",
-    # tool_choice={"type": "auto"},
 )
 end_time = time.time()
 print(f"Time taken: {end_time - start_time} seconds")

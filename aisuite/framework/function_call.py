@@ -102,7 +102,6 @@ def generate_function_calling_schema_for_openai(function: Callable) -> dict:
     """Generate the function calling schema for OpenAI"""
     schema = generate_function_calling_schema(function)
 
-    # update input_schema key name to parameters
     schema["parameters"] = schema["input_schema"]
     del schema["input_schema"]
 
