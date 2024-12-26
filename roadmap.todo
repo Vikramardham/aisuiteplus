@@ -1,0 +1,33 @@
+1. Tool calling support
+    - [x] Add tool calling support for Anthropic
+    - [x] Add tool calling support for OpenAI
+    - [ ] Add tool calling support for Ollama/Mistral 
+    - [ ] Add tool calling support for HuggingFace
+    - [ ] Add tool calling support for AWS 
+    - [ ] Add tool calling support for Azure 
+    - [ ] Add tool calling support for Google 
+- [ ] Test with complex functions 
+- [ ] Add Multiple function calling support 
+- [ ] Add good examples 
+    - [ ] Function calling with multiple functions
+    - [ ] Db query function calling
+    - [ ] Web search function calling
+
+2. Stuctured Output Support
+    - [ ] Anthropic
+    - [ ] OpenAI
+    - [ ] Ollama/Mistral
+    - [ ] HuggingFace
+    - [ ] AWS
+    - [ ] Azure
+    - [ ] Google
+- [ ] Test with complex structured output 
+- [ ] Add good examples with structured output
+
+3. RAG cookbook with pgai 
+  - [ ] RAG on pdf
+  - [ ] RAG on html 
+  - [ ] Chatbot with RAG
+
+4. 
+
