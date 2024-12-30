@@ -1,5 +1,4 @@
 # %%
-import os
 import time
 
 import aisuite as ai
@@ -14,7 +13,7 @@ messages = [
         "role": "system",
         "content": "You are a helpful assistant that can calculate the sum of two numbers.",
     },
-    {"role": "user", "content": "What is the sum of 1 and 2?"},
+    {"role": "user", "content": "What is the sum of 23 and 13332?"},
 ]
 
 
@@ -30,7 +29,10 @@ def get_weather(location: str) -> str:
 # %%
 
 # model = os.getenv("MODEL")
-model = "openai:gpt-4o-mini"
+# model = "openai:gpt-4o-mini"
+# model = "ollama:llama3.2"
+model = "anthropic:claude-3-5-sonnet-20241022"
+# model = "huggingface:Qwen/QwQ-32B-Preview"
 start_time = time.time()
 response = client.chat.completions.create(
     model=model,

@@ -13,3 +13,12 @@ env/
 
 .DS_Store
 **/.DS_Store
+
+# build
+dist/
+.eggs/
+*.egg-info
+*.gz
+
+#test
+.deepeval_telemtry.txt

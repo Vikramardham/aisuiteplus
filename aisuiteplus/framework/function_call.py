@@ -68,14 +68,17 @@ def generate_function_calling_schema(function: Callable) -> dict:
 
         param_doc = ""
         if function.__doc__:
-            # Try to extract parameter documentation from docstring
-            param_lines = [
-                line.strip()
-                for line in function.__doc__.split("\n")
-                if f":param {param_name}:" in line
-            ]
-            if param_lines:
-                param_doc = param_lines[0].split(":param {param_name}:")[1].strip()
+            try:
+                param_lines = [
+                    line.strip()
+                    for line in function.__doc__.split("\n")
+                    if f":param {param_name}:" in line
+                ]
+                if param_lines:
+                    param_doc = param_lines[0].split(":param {param_name}:")[1].strip()
+            except Exception as e:
+                print(f"Error extracting parameter documentation: {e}")
+                param_doc = f"Parameter {param_name}"
 
         properties[param_name] = Argument(
             type=type_info["type"],

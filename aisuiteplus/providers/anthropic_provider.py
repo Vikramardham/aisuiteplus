@@ -1,3 +1,5 @@
+"""Anthropic provider implementation."""
+
 import anthropic
 from aisuite.provider import Provider
 from aisuite.framework import ChatCompletionResponse
@@ -18,12 +20,14 @@ class AnthropicProvider(Provider):
 
     def chat_completions_create(self, model, messages, tools=None, **kwargs):
         """Create a chat completion with function calling support."""
-        # Check if the first message is a system message
-        if messages[0]["role"] == "system":
+        # Extract system message if present
+        system_message = None
+        if messages and messages[0]["role"] == "system":
             system_message = messages[0]["content"]
             messages = messages[1:]
-        else:
-            system_message = []
+
+        if system_message is None:
+            system_message = "You are a helpful assistant. You answer user questions to the best of your ability. You can use the provided tools to answer the question. If the tools are not relevant, you can ignore them."
 
         # Set default max tokens if not provided
         if "max_tokens" not in kwargs:
@@ -44,7 +48,7 @@ class AnthropicProvider(Provider):
         response = self.client.messages.create(
             model=model,
             messages=messages,
-            tools=None,
+            system=system_message,
             **kwargs,
         )
 
@@ -63,12 +67,15 @@ class AnthropicProvider(Provider):
         )
         logger.info("Received response from Anthropic API")
         messages.append({"role": "assistant", "content": response.content})
+        tool_calls = []
+        tool_used = False
 
         for content in response.content:
             if content.type == "tool_use":
                 tool_name = content.name
                 arguments = content.input
                 tool_id = content.id
+                tool_calls.append(tool_name)
 
                 try:
                     logger.info("Executing tool")
@@ -78,6 +85,7 @@ class AnthropicProvider(Provider):
                             str(tool_response), tool_id, tool_name
                         )
                     )
+                    tool_used = True
                 except Exception as e:
                     logger.error(f"Error executing tool: {str(e)}")
                     messages.append(
@@ -86,6 +94,10 @@ class AnthropicProvider(Provider):
                         )
                     )
 
+        if not tool_used:
+            return self.normalize_response(response)
+
+        logger.info(f"Messages: {messages[-1]}")
         logger.info("Getting final response after tool execution")
         final_response = self.client.messages.create(
             model=model,
@@ -95,7 +107,7 @@ class AnthropicProvider(Provider):
             **{k: v for k, v in kwargs.items() if k != "tool_choice"},
         )
 
-        return self.normalize_response(final_response)
+        return self.normalize_response(final_response, tool_calls)
 
     def build_tool_result_message(self, tool_response, tool_id, tool_name):
         return {
@@ -109,9 +121,10 @@ class AnthropicProvider(Provider):
             ],
         }
 
-    def normalize_response(self, response):
+    def normalize_response(self, response, tool_calls=None):
         """Normalize the response from the Anthropic API to match OpenAI's response format."""
         normalized_response = ChatCompletionResponse()
         logger.info("Normalizing response")
         normalized_response.choices[0].message.content = response.content[0].text
+        normalized_response.tool_calls = tool_calls
         return normalized_response

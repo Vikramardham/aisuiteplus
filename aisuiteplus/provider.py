@@ -3,6 +3,8 @@ from pathlib import Path
 import importlib
 import os
 import functools
+from typing import get_type_hints, Any, Dict
+import json
 
 
 class LLMError(Exception):
@@ -10,6 +12,26 @@ class LLMError(Exception):
 
     def __init__(self, message):
         super().__init__(message)
+
+
+def _cast_value(value: Any, target_type: type) -> Any:
+    """Cast a value to the target type, handling common type conversions."""
+    try:
+        if target_type == bool and isinstance(value, str):
+            return value.lower() in ("true", "1", "yes", "y")
+        if target_type == str:
+            return str(value)
+        if target_type == int:
+            return int(float(value))  # Handle both "123" and "123.0"
+        if target_type == float:
+            return float(value)
+        if target_type == list and isinstance(value, str):
+            return json.loads(value)
+        return target_type(value)
+    except (ValueError, TypeError) as e:
+        raise ValueError(
+            f"Failed to cast value '{value}' to type {target_type}: {str(e)}"
+        )
 
 
 class Provider(ABC):
@@ -20,8 +42,10 @@ class Provider(ABC):
         """Abstract method for chat completion calls, to be implemented by each provider."""
         pass
 
-    def execute_tool(self, tool_name: str, arguments: dict, tools: list) -> any:
-        """Execute a tool call - common implementation for all providers"""
+    def execute_tool(
+        self, tool_name: str, arguments: Dict[str, Any], tools: list
+    ) -> Any:
+        """Execute a tool call with proper type casting of arguments."""
         matching_tool = next(
             (tool for tool in tools if tool.__name__ == tool_name), None
         )
@@ -30,11 +54,29 @@ class Provider(ABC):
             raise ValueError(f"Tool '{tool_name}' not found in provided tools")
 
         try:
-            import json
-
+            # Parse arguments if they're in string format
             if isinstance(arguments, str):
                 arguments = json.loads(arguments)
-            return matching_tool(**arguments)
+
+            # Get type hints for the function parameters
+            type_hints = get_type_hints(matching_tool)
+
+            # Cast each argument to its expected type
+            typed_arguments = {}
+            for arg_name, arg_value in arguments.items():
+                if arg_name in type_hints:
+                    try:
+                        typed_arguments[arg_name] = _cast_value(
+                            arg_value, type_hints[arg_name]
+                        )
+                    except ValueError as e:
+                        raise ValueError(
+                            f"Error casting argument '{arg_name}': {str(e)}"
+                        )
+                else:
+                    typed_arguments[arg_name] = arg_value
+
+            return matching_tool(**typed_arguments)
         except Exception as e:
             raise Exception(f"Error executing tool: {str(e)}")
 

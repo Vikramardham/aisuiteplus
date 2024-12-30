@@ -3,7 +3,7 @@ import httpx
 import json
 from aisuite.provider import Provider, LLMError
 from aisuite.framework import ChatCompletionResponse
-from aisuite.framework.function_call import generate_function_calling_schema
+from aisuite.framework.function_call import generate_function_calling_schema_for_openai
 from loguru import logger
 
 
@@ -39,37 +39,28 @@ class OllamaProvider(Provider):
         if tools:
             logger.info("Generating function calling schema for tools")
             tools_with_schema = [
-                generate_function_calling_schema(tool) for tool in tools
+                generate_function_calling_schema_for_openai(tool) for tool in tools
             ]
+            kwargs["tool_choice"] = "auto"
+            kwargs["stream"] = False
 
-            # Add tool descriptions to system message
-            system_message = {
-                "role": "system",
-                "content": "You are a helpful assistant that can use tools. Available tools:\n",
-            }
+            logger.info("making initial request")
+            return self._process_tool_calls(
+                messages, tools_with_schema, tools, model, **kwargs
+            )
 
-            for tool_schema in tools_with_schema:
-                system_message[
-                    "content"
-                ] += f"\n{tool_schema['name']}: {tool_schema['description']}\n"
-                system_message[
-                    "content"
-                ] += f"Parameters: {json.dumps(tool_schema['input_schema']['properties'], indent=2)}\n"
+        return self._normalize_response(self._make_request(model, messages, **kwargs))
 
-            messages = [system_message] + messages
-
-            response = self._make_request(model, messages, **kwargs)
-            return self._process_tool_calls(response, messages, tools, model, **kwargs)
-
-        return self._make_request(model, messages, **kwargs)
-
-    def _make_request(self, model, messages, **kwargs):
+    def _make_request(self, model, messages, tools=None, **kwargs):
         """Make HTTP request to Ollama API"""
         data = {
             "model": model,
             "messages": messages,
+            "tools": tools,
             **kwargs,
         }
+
+        logger.info(f"{json.dumps(data, indent=2)}")
 
         try:
             response = httpx.post(
@@ -86,42 +77,42 @@ class OllamaProvider(Provider):
         except Exception as e:
             raise LLMError(f"An error occurred: {e}")
 
-    def _process_tool_calls(self, response, messages, tools, model, **kwargs):
+    def _process_tool_calls(self, messages, tools_with_schema, tools, model, **kwargs):
         """Process potential function calls in the response"""
-        content = response["message"]["content"]
+        response = self._make_request(
+            model, messages, tools=tools_with_schema, **kwargs
+        )
+        _content = response["message"]["content"]
+        logger.info("Making tool calls")
 
+        logger.info(f"{json.dumps(response, indent=2)}")
         # Look for function call syntax in the response
-        if "I want to use the tool" in content.lower():
+        if "tool_calls" in response["message"]:
+            logger.info("Tool calls found")
             try:
                 # Extract tool name and arguments using simple parsing
                 # This is a basic implementation - could be improved with better parsing
-                lines = content.split("\n")
-                for line in lines:
-                    if "tool:" in line.lower():
-                        tool_name = line.split("tool:")[1].strip()
-                    if "arguments:" in line.lower():
-                        arguments = line.split("arguments:")[1].strip()
-                        try:
-                            arguments = json.loads(arguments)
-                        except:
-                            continue
+                for tool_call in response["message"]["tool_calls"]:
+                    tool_name = tool_call["function"]["name"]
+                    arguments = tool_call["function"]["arguments"]
+                    tool_id = None  # TODO: Add tool id
 
-                        tool_id = "tool_call_1"  # Simple ID for tracking
+                    tool_response = self.execute_tool(tool_name, arguments, tools)
 
-                        # Execute the tool
-                        tool_response = self.execute_tool(tool_name, arguments, tools)
-
-                        # Add results to messages
-                        messages.append({"role": "assistant", "content": content})
-                        messages.append(
-                            self.build_tool_result_message(
-                                tool_response, tool_id, tool_name
-                            )
+                    # Add results to messages
+                    # messages.append({"role": "assistant", "content": content})
+                    messages.append(
+                        self.build_tool_result_message(
+                            tool_response, tool_id, tool_name
                         )
+                    )
 
-                        # Get final response
-                        final_response = self._make_request(model, messages, **kwargs)
-                        return self._normalize_response(final_response)
+                    logger.info(f"{json.dumps(messages, indent=2)}")
+                    logger.info(f"tool_response: {tool_response}")
+                    logger.info("Making final request")
+                    # Get final response
+                    final_response = self._make_request(model, messages, **kwargs)
+                    return self._normalize_response(final_response)
 
             except Exception as e:
                 logger.error(f"Error processing tool call: {e}")
