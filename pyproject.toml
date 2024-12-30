@@ -1,7 +1,7 @@
 [project]
 name = "aisuiteplus"
-version = "0.1.6"
-description = "Uniform access layer for LLMs"
+version = "0.0.1"
+description = "Uniform access layer for LLMs + Functions + Structured Output"
 authors = [
     {name = "Vikram A", email="vikram@butterflai.com"}
 ]
@@ -17,6 +17,7 @@ dependencies = [
     "loguru>=0.7.3",
     "openai>=1.58.1",
     "openpyxl>=3.1.5",
+    "pre-commit>=4.0.1",
     "pypdf2>=3.0.1",
     "pytest-cov>=6.0.0",
     "pytest>=8.3.4",

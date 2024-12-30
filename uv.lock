@@ -91,8 +91,8 @@ wheels = [
 ]
 
 [[package]]
-name = "aisuite"
-version = "0.1.6"
+name = "aisuiteplus"
+version = "0.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "anthropic" },
@@ -104,6 +104,7 @@ dependencies = [
     { name = "loguru" },
     { name = "openai" },
     { name = "openpyxl" },
+    { name = "pre-commit" },
     { name = "pypdf2" },
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -194,6 +195,7 @@ requires-dist = [
     { name = "openai", marker = "extra == 'all'", specifier = ">=1.35.8" },
     { name = "openai", marker = "extra == 'openai'", specifier = ">=1.35.8" },
     { name = "openpyxl", specifier = ">=3.1.5" },
+    { name = "pre-commit", specifier = ">=4.0.1" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.7.1" },
     { name = "pypdf2", specifier = ">=3.0.1" },
     { name = "pytest", specifier = ">=8.3.4" },

@@ -3,14 +3,14 @@
     - [x] OpenAI
     - [x] Ollama
     - [ ] Handle models that don't support tool calling
-    - [ ] AWS 
-    - [ ] Azure 
+    - [ ] AWS
+    - [ ] Azure
     - [ ] Mistral
     - [ ] HuggingFace
-2. [x] Test with complex functions 
-    - [x] Write testing framework to test tool calling support 
-    - [ ] Add Multiple function calling support 
-    - [x] Add good examples 
+2. [x] Test with complex functions
+    - [x] Write testing framework to test tool calling support
+    - [ ] Add Multiple function calling support
+    - [x] Add good examples
         - [x] Function calling with multiple functions
         - [x] Db query function calling
         - [x] Web search function calling
@@ -21,14 +21,19 @@
     - [ ] AWS
     - [ ] Azure
     - [ ] Google
-    - [ ] HuggingFace 
-    - [ ] Test with complex structured output 
+    - [ ] HuggingFace
+    - [ ] Test with complex structured output
     - [ ] Add good examples with structured output
-4. Cookbooks 
+4. Cookbooks
     - [ ] Search and summarize (perple)
-5. RAG cookbook with pgai 
+5. RAG cookbook with pgai
   - [ ] RAG on pdf
-  - [ ] RAG on html 
+  - [ ] RAG on html
   - [ ] Chatbot with RAG
-6. 
+6.
 
+
+## Tech ToDO
+These are ToDo items that are related to the tech stack.
+- [ ] Update imports to use aisuiteplus
+- [ ] Precommit with tests for all supported providers
