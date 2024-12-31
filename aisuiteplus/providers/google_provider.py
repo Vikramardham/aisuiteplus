@@ -3,10 +3,9 @@
 import os
 
 import vertexai
-from vertexai.generative_models import GenerativeModel, GenerationConfig
+from vertexai.generative_models import GenerationConfig, GenerativeModel
 
-from aisuite.framework import ProviderInterface, ChatCompletionResponse
-
+from aisuiteplus.framework import ChatCompletionResponse, ProviderInterface
 
 DEFAULT_TEMPERATURE = 0.7
 

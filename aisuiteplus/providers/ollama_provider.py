@@ -1,10 +1,14 @@
-import os
-import httpx
 import json
-from aisuite.provider import Provider, LLMError
-from aisuite.framework import ChatCompletionResponse
-from aisuite.framework.function_call import generate_function_calling_schema_for_openai
+import os
+
+import httpx
 from loguru import logger
+
+from aisuiteplus.framework import ChatCompletionResponse
+from aisuiteplus.framework.function_call import (
+    generate_function_calling_schema_for_openai,
+)
+from aisuiteplus.provider import LLMError, Provider
 
 
 class OllamaProvider(Provider):

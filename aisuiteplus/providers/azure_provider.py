@@ -1,9 +1,9 @@
-import urllib.request
 import json
 import os
+import urllib.request
 
-from aisuite.provider import Provider
-from aisuite.framework import ChatCompletionResponse
+from aisuiteplus.framework import ChatCompletionResponse
+from aisuiteplus.provider import Provider
 
 
 class AzureProvider(Provider):

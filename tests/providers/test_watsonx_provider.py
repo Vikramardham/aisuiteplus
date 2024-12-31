@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from ibm_watsonx_ai.metanames import GenChatParamsMetaNames as GenChatParams
 
-from aisuite.providers.watsonx_provider import WatsonxProvider
+from aisuiteplus.providers.watsonx_provider import WatsonxProvider
 
 
 @pytest.fixture(autouse=True)
@@ -27,7 +27,7 @@ def test_watsonx_provider():
     mock_response = {"choices": [{"message": {"content": response_text_content}}]}
 
     with patch(
-        "aisuite.providers.watsonx_provider.ModelInference"
+        "aisuiteplus.providers.watsonx_provider.ModelInference"
     ) as mock_model_inference:
         mock_model = MagicMock()
         mock_model_inference.return_value = mock_model

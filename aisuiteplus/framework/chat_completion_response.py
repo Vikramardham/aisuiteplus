@@ -1,4 +1,4 @@
-from aisuite.framework.choice import Choice
+from aisuiteplus.framework.choice import Choice
 
 
 class ChatCompletionResponse:

@@ -1,8 +1,9 @@
 # %%
 import time
 
-import aisuite as ai
 from dotenv import load_dotenv
+
+import aisuiteplus as ai
 
 load_dotenv(".env")
 

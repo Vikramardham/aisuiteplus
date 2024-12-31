@@ -2,7 +2,7 @@ import os
 
 from mistralai import Mistral
 
-from aisuite.provider import Provider
+from aisuiteplus.provider import Provider
 
 
 class MistralProvider(Provider):

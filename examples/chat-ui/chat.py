@@ -1,20 +1,21 @@
-import os
-import requests
-import streamlit as st
 import sys
-import yaml
-from dotenv import load_dotenv, find_dotenv
 
-sys.path.append("../../../aisuite")
-from aisuite.client import Client
+import streamlit as st
+import yaml
+from dotenv import find_dotenv, load_dotenv
+
+sys.path.append("../../../aisuiteplus")
+from aisuiteplus.client import Client  # noqa: E402
 
 # Configure Streamlit to use wide mode and hide the top streamlit menu
 st.set_page_config(layout="wide", menu_items={})
+
 # Add heading with padding
 st.markdown(
     "<div style='padding-top: 1rem;'><h2 style='text-align: center; color: #ffffff;'>Chat & Compare LLM responses</h2></div>",
     unsafe_allow_html=True,
 )
+
 st.markdown(
     """
     <style>
@@ -22,7 +23,7 @@ st.markdown(
         html, body, [class*="css"] {
             font-size: 14px !important;
         }
-        
+
         /* Style for Reset button focus */
         button[data-testid="stButton"][aria-label="Reset Chat"]:focus {
             border-color: red !important;
@@ -32,6 +33,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
 st.markdown(
     """
     <style>
@@ -39,7 +41,7 @@ st.markdown(
         #MainMenu {visibility: hidden;}
         header {visibility: hidden;}
         footer {visibility: hidden;}
-        
+
         /* Remove top padding/margin */
         .block-container {
             padding-top: 0rem;
@@ -51,7 +53,7 @@ st.markdown(
         .appview-container {
             padding-top: 0rem;
         }
-        
+
         /* Custom CSS for scrollable chat container */
         .chat-container {
             height: 650px;
@@ -62,21 +64,21 @@ st.markdown(
             padding: 20px;
             margin: 10px 0;
         }
-        
+
         /* Ensure the container takes full width */
         .stMarkdown {
             width: 100%;
         }
-        
+
         /* Style for chat messages to ensure they're visible */
         .chat-message {
             margin: 10px 0;
             padding: 10px;
         }
-        
+
         #text_area_1 {
             min-height: 20px !important;
-        } 
+        }
     </style>
     """,
     unsafe_allow_html=True,
@@ -93,7 +95,7 @@ client = Client()
 # Function to display chat history
 def display_chat_history(chat_history, model_name):
     for message in chat_history:
-        role_display = "User" if message["role"] == "user" else model_name
+        _role_display = "User" if message["role"] == "user" else model_name
         role = "user" if message["role"] == "user" else "assistant"
         if role == "user":
             with st.chat_message(role, avatar="👤"):
@@ -181,7 +183,6 @@ with col1:
         height=70,
     )
 
-
 # CSS for aligning buttons with the bottom of the text area
 st.markdown(
     """
@@ -219,19 +220,14 @@ with col3:
 
 # Handle send button click and processing
 if send_button and user_query and not st.session_state.is_processing:
-    # Set processing state
     st.session_state.is_processing = True
-
-    # Append user's message to chat histories first
     st.session_state.chat_history_1.append({"role": "user", "content": user_query})
     if st.session_state.use_comparison_mode:
         st.session_state.chat_history_2.append({"role": "user", "content": user_query})
-
     st.rerun()
 
 # Handle the actual processing
 if st.session_state.is_processing and user_query:
-    # Query the selected LLM(s)
     model_config_1 = next(
         llm for llm in configured_llms if llm["name"] == selected_model_1
     )
@@ -247,6 +243,5 @@ if st.session_state.is_processing and user_query:
             {"role": "assistant", "content": response_2}
         )
 
-    # Reset processing state
     st.session_state.is_processing = False
     st.rerun()

@@ -28,7 +28,7 @@ This installs just the base package without installing any provider's SDK.
 pip install aisuiteplus
 ```
 
-This installs aisuite along with anthropic's library.
+This installs aisuiteplus along with anthropic's library.
 
 ```shell
 pip install 'aisuiteplus[anthropic]'
@@ -81,14 +81,14 @@ for model in models:
 ```
 
 Note that the model name in the create() call uses the format - `<provider>:<model-name>`.
-`aisuite` will call the appropriate provider with the right parameters based on the provider value.
-For a list of provider values, you can look at the directory - `aisuite/providers/`. The list of supported providers are of the format - `<provider>_provider.py` in that directory. We welcome  providers adding support to this library by adding an implementation file in this directory. Please see section below for how to contribute.
+`aisuiteplus` will call the appropriate provider with the right parameters based on the provider value.
+For a list of provider values, you can look at the directory - `aisuiteplus/providers/`. The list of supported providers are of the format - `<provider>_provider.py` in that directory. We welcome  providers adding support to this library by adding an implementation file in this directory. Please see section below for how to contribute.
 
 For more examples, check out the `examples` directory where you will find several notebooks that you can run to experiment with the interface.
 
 ## License
 
-aisuite is released under the MIT License. You are free to use, modify, and distribute the code for both commercial and non-commercial purposes.
+aisuiteplus is released under the MIT License. You are free to use, modify, and distribute the code for both commercial and non-commercial purposes.
 
 ## Contributing
 
@@ -115,7 +115,7 @@ We follow a convention-based approach for loading providers, which relies on str
   ```
 
   in providers/huggingface_provider.py.
-  
+
 - **OpenAI**:
   The provider class should be defined as:
 

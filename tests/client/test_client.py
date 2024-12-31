@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from aisuite import Client
+from aisuiteplus import Client
 
 
 @pytest.fixture(scope="module")
@@ -45,47 +45,47 @@ def provider_configs():
     argnames=("patch_target", "provider", "model"),
     argvalues=[
         (
-            "aisuite.providers.openai_provider.OpenaiProvider.chat_completions_create",
+            "aisuiteplus.providers.openai_provider.OpenaiProvider.chat_completions_create",
             "openai",
             "gpt-4o",
         ),
         (
-            "aisuite.providers.mistral_provider.MistralProvider.chat_completions_create",
+            "aisuiteplus.providers.mistral_provider.MistralProvider.chat_completions_create",
             "mistral",
             "mistral-model",
         ),
         (
-            "aisuite.providers.groq_provider.GroqProvider.chat_completions_create",
+            "aisuiteplus.providers.groq_provider.GroqProvider.chat_completions_create",
             "groq",
             "groq-model",
         ),
         (
-            "aisuite.providers.aws_provider.AwsProvider.chat_completions_create",
+            "aisuiteplus.providers.aws_provider.AwsProvider.chat_completions_create",
             "aws",
             "claude-v3",
         ),
         (
-            "aisuite.providers.azure_provider.AzureProvider.chat_completions_create",
+            "aisuiteplus.providers.azure_provider.AzureProvider.chat_completions_create",
             "azure",
             "azure-model",
         ),
         (
-            "aisuite.providers.anthropic_provider.AnthropicProvider.chat_completions_create",
+            "aisuiteplus.providers.anthropic_provider.AnthropicProvider.chat_completions_create",
             "anthropic",
             "anthropic-model",
         ),
         (
-            "aisuite.providers.google_provider.GoogleProvider.chat_completions_create",
+            "aisuiteplus.providers.google_provider.GoogleProvider.chat_completions_create",
             "google",
             "google-model",
         ),
         (
-            "aisuite.providers.fireworks_provider.FireworksProvider.chat_completions_create",
+            "aisuiteplus.providers.fireworks_provider.FireworksProvider.chat_completions_create",
             "fireworks",
             "fireworks-model",
         ),
         (
-            "aisuite.providers.watsonx_provider.WatsonxProvider.chat_completions_create",
+            "aisuiteplus.providers.watsonx_provider.WatsonxProvider.chat_completions_create",
             "watsonx",
             "watsonx-model",
         ),
@@ -124,7 +124,7 @@ def test_invalid_provider_in_client_config():
 
 
 def test_invalid_model_format_in_create(monkeypatch):
-    from aisuite.providers.openai_provider import OpenaiProvider
+    from aisuiteplus.providers.openai_provider import OpenaiProvider
 
     monkeypatch.setattr(
         target=OpenaiProvider,

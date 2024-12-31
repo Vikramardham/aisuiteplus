@@ -1,29 +1,28 @@
 """Tests for Anthropic provider's function calling capabilities using DeepEval framework."""
 
-import pytest
 import os
+
+import pytest
 from deepeval import assert_test
-from deepeval.test_case import LLMTestCase
 from deepeval.metrics import (
     AnswerRelevancyMetric,
-    FaithfulnessMetric,
     ContextualRelevancyMetric,
+    FaithfulnessMetric,
 )
-import aisuite as ai
+from deepeval.test_case import LLMTestCase
 from dotenv import load_dotenv
 
+import aisuiteplus as ai
+
 from .functions import (
+    analyze_text,
     calculate_age,
     convert_temperature,
-    analyze_text,
+    get_course_enrollment_status,
     manage_shopping_cart,
     process_financial_data,
-    search_web,
-    execute_api_call,
-    execute_sql_query,
-    search_course_catalog,
-    get_course_enrollment_status,
     query_student_progress,
+    search_course_catalog,
 )
 
 MODEL = "anthropic:claude-3-sonnet-20240229"

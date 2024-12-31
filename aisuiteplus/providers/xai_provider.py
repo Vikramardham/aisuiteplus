@@ -1,7 +1,9 @@
 import os
+
 import httpx
-from aisuite.provider import Provider, LLMError
-from aisuite.framework import ChatCompletionResponse
+
+from aisuiteplus.framework import ChatCompletionResponse
+from aisuiteplus.provider import LLMError, Provider
 
 
 class XaiProvider(Provider):

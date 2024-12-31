@@ -10,7 +10,7 @@ export XAI_API_KEY="your-xai-api-key"
 
 Sample code:
 ```python
-import aisuite as ai
+import aisuiteplus as ai
 client = ai.Client()
 
 models = ["xai:grok-beta"]

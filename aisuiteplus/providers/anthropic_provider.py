@@ -1,11 +1,11 @@
 """Anthropic provider implementation."""
 
 import anthropic
-from aisuite.provider import Provider
-from aisuite.framework import ChatCompletionResponse
-from aisuite.framework.function_call import generate_function_calling_schema
-
 from loguru import logger
+
+from aisuiteplus.framework import ChatCompletionResponse
+from aisuiteplus.framework.function_call import generate_function_calling_schema
+from aisuiteplus.provider import Provider
 
 DEFAULT_MAX_TOKENS = 4096
 

@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from aisuite.providers.cohere_provider import CohereProvider
+from aisuiteplus.providers.cohere_provider import CohereProvider
 
 
 @pytest.fixture(autouse=True)

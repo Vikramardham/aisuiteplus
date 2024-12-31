@@ -6,7 +6,7 @@ authors = [
     {name = "Vikram A", email="vikram@butterflai.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
     "anthropic>=0.42.0",
     "build>=1.2.2.post1",
@@ -66,6 +66,9 @@ test = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build]
+packages = ["aisuiteplus", "aisuite"]
 
 [tool.pytest.ini_options]
 addopts = "--cov=aisuite --cov-report=term-missing"

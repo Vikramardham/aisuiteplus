@@ -1,4 +1,4 @@
-from aisuite.framework.message import Message
+from aisuiteplus.framework.message import Message
 
 
 class Choice:

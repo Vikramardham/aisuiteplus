@@ -1,10 +1,10 @@
+import functools
+import importlib
+import json
+import os
 from abc import ABC, abstractmethod
 from pathlib import Path
-import importlib
-import os
-import functools
-from typing import get_type_hints, Any, Dict
-import json
+from typing import Any, Dict, get_type_hints
 
 
 class LLMError(Exception):
@@ -117,7 +117,7 @@ class ProviderFactory:
         provider_class_name = f"{provider_key.capitalize()}Provider"
         provider_module_name = f"{provider_key}_provider"
 
-        module_path = f"aisuite.providers.{provider_module_name}"
+        module_path = f"aisuiteplus.providers.{provider_module_name}"
 
         # Lazily load the module
         try:

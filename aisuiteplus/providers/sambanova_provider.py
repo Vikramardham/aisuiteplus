@@ -1,6 +1,8 @@
 import os
-from aisuite.provider import Provider
+
 from openai import OpenAI
+
+from aisuiteplus.provider import Provider
 
 
 class SambanovaProvider(Provider):
@@ -26,5 +28,5 @@ class SambanovaProvider(Provider):
         return self.client.chat.completions.create(
             model=model,
             messages=messages,
-            **kwargs  # Pass any additional arguments to the Sambanova API
+            **kwargs,  # Pass any additional arguments to the Sambanova API
         )

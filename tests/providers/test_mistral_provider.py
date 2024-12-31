@@ -1,7 +1,8 @@
-import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-from aisuite.providers.mistral_provider import MistralProvider
+import pytest
+
+from aisuiteplus.providers.mistral_provider import MistralProvider
 
 
 @pytest.fixture(autouse=True)

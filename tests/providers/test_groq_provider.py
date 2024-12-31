@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from aisuite.providers.groq_provider import GroqProvider
+from aisuiteplus.providers.groq_provider import GroqProvider
 
 
 @pytest.fixture(autouse=True)

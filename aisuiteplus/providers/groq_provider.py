@@ -1,7 +1,8 @@
 import os
 
 import groq
-from aisuite.provider import Provider
+
+from aisuiteplus.provider import Provider
 
 
 class GroqProvider(Provider):
@@ -22,5 +23,5 @@ class GroqProvider(Provider):
         return self.client.chat.completions.create(
             model=model,
             messages=messages,
-            **kwargs  # Pass any additional arguments to the Groq API
+            **kwargs,  # Pass any additional arguments to the Groq API
         )

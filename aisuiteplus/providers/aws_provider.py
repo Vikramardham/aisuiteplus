@@ -1,8 +1,9 @@
 import os
 
 import boto3
-from aisuite.provider import Provider, LLMError
-from aisuite.framework import ChatCompletionResponse
+
+from aisuiteplus.framework import ChatCompletionResponse
+from aisuiteplus.provider import Provider
 
 
 class AwsProvider(Provider):

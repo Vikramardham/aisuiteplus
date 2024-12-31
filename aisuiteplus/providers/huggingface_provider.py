@@ -1,9 +1,11 @@
 import os
+
 import httpx
-from aisuite.provider import Provider, LLMError
-from aisuite.framework import ChatCompletionResponse
-from aisuite.framework.function_call import generate_function_calling_schema
 from loguru import logger
+
+from aisuiteplus.framework import ChatCompletionResponse
+from aisuiteplus.framework.function_call import generate_function_calling_schema
+from aisuiteplus.provider import LLMError, Provider
 
 
 class HuggingfaceProvider(Provider):

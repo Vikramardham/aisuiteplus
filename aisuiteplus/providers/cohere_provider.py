@@ -1,8 +1,9 @@
 import os
+
 import cohere
 
-from aisuite.framework import ChatCompletionResponse
-from aisuite.provider import Provider
+from aisuiteplus.framework import ChatCompletionResponse
+from aisuiteplus.provider import Provider
 
 
 class CohereProvider(Provider):
@@ -23,7 +24,7 @@ class CohereProvider(Provider):
         response = self.client.chat(
             model=model,
             messages=messages,
-            **kwargs  # Pass any additional arguments to the Cohere API
+            **kwargs,  # Pass any additional arguments to the Cohere API
         )
 
         return self.normalize_response(response)
